@@ -1,31 +1,66 @@
----
-title: Set up your environment
-description: Learn how to set up your development environment to start building with Expo.
-hideTOC: true
----
+// App.js (React Native base using Tailwind with Expo)
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { DevelopmentEnvironmentInstructions } from '~/scenes/get-started/set-up-your-environment/DevelopmentEnvironmentInstructions';
-import { DevelopmentModeForm } from '~/scenes/get-started/set-up-your-environment/DevelopmentModeForm';
-import { PlatformAndDeviceForm } from '~/scenes/get-started/set-up-your-environment/PlatformAndDeviceForm';
+const Stack = createNativeStackNavigator();
 
-Let's set up a local development environment for running your project on Android and iOS.
+const LoginScreen = ({ navigation }) => {
+  return (
+    <SafeAreaView className="flex-1 justify-center items-center bg-white p-4">
+      <Text className="text-2xl font-bold mb-4">Bienvenido</Text>
+      <TextInput className="w-full border border-gray-300 rounded-xl p-3 mb-3" placeholder="Correo electrónico" />
+      <TextInput className="w-full border border-gray-300 rounded-xl p-3 mb-5" placeholder="Contraseña" secureTextEntry />
+      <TouchableOpacity className="bg-blue-500 rounded-xl px-6 py-3" onPress={() => navigation.navigate('Home')}>
+        <Text className="text-white font-semibold">Iniciar Sesión</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
 
-## Where would you like to develop?
+const HomeScreen = ({ navigation }) => {
+  return (
+    <SafeAreaView className="flex-1 bg-white p-4">
+      <Text className="text-xl font-bold mb-6">Inicio</Text>
+      <TouchableOpacity className="bg-blue-100 p-4 rounded-xl mb-4" onPress={() => navigation.navigate('Chat')}>
+        <Text className="text-blue-700 font-semibold">Chat con Asistente AI</Text>
+      </TouchableOpacity>
+      <TouchableOpacity className="bg-blue-100 p-4 rounded-xl mb-4" onPress={() => navigation.navigate('Appointments')}>
+        <Text className="text-blue-700 font-semibold">Mis Citas</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
 
-We recommend using a real device to develop, since you'll get to see exactly what your users will see.
+const ChatScreen = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white p-4">
+      <Text className="text-xl font-bold mb-4">Asistente AI</Text>
+      <Text className="text-gray-500">Aquí irá la conversación con el asistente virtual...</Text>
+    </SafeAreaView>
+  );
+};
 
-<PlatformAndDeviceForm />
+const AppointmentsScreen = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white p-4">
+      <Text className="text-xl font-bold mb-4">Mis Citas</Text>
+      <Text className="text-gray-500">Aquí se mostrarán las próximas y pasadas citas médicas.</Text>
+    </SafeAreaView>
+  );
+};
 
-## How would you like to develop?
-
-Expo Go is a sandbox for trying out Expo quickly. A development build is a build of your own app that includes Expo's developer tools.
-
-<DevelopmentModeForm />
-
----
-
-<DevelopmentEnvironmentInstructions />
-
-## Next step
-
-You have a project and a development environment. Now it's time to start developing.
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Appointments" component={AppointmentsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
